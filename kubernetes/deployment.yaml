@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: llm-doc-qa
+  labels:
+    app: llm-doc-qa
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: llm-doc-qa
+  template:
+    metadata:
+      labels:
+        app: llm-doc-qa
+    spec:
+      containers:
+        - name: llm-doc-qa
+          image: llm-doc-qa:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: llm-doc-qa-config
+          env:
+            - name: SECRET_KEY
+              value: "change-this-in-production"
+          volumeMounts:
+            - name: gcp-key-volume
+              mountPath: /app/gcp-key.json
+              subPath: gcp-key.json
+      volumes:
+        - name: gcp-key-volume
+          secret:
+            secretName: gcp-key-secret

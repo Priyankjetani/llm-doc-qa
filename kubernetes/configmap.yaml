@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: llm-doc-qa-config
+data:
+  GCP_PROJECT_ID: "llm-doc-qa"
+  GCP_LOCATION: "us-central1"
+  GCP_BUCKET: "user-document"
+  GOOGLE_APPLICATION_CREDENTIALS: "/app/gcp-key.json"
